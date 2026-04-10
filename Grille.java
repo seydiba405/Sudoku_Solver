@@ -101,7 +101,6 @@ public class Grille {
             // On lit ce que l'utilisateur a tapé et on le découpe comme pour le fichier
             String[] values = scanner.nextLine().trim().split("\\s+");
 
-            // ⚠️ BUG ICI : "col++" devrait être "c++"
             // Tel quel, ce code ne compilera pas car "col" n'est pas déclaré ici
             for (int c = 0; c < 9; c++) { // ✅ VERSION CORRIGÉE
                 // On convertit la saisie en entier
