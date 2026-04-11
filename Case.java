@@ -7,4 +7,8 @@ public class Case {
         // Si le chiffre n'est pas 0, il est verrouillé (le solveur ne doit pas y toucher)
         this.estFixe = (valeur != 0);
     }
+
+    public int getValeur() {
+        return this.valeur;
+    }
 }

@@ -1,34 +1,39 @@
+import java.util.Scanner;
+
 public class SudokuApp {
-
     public static void main(String[] args) {
-
-        Grille grille = null;
+        Grille grille = new Grille();
+        Scanner scanner = new Scanner(System.in);
 
         try {
-            // Si fichier passé en argument
+            // Étape 1 : Chargement (Rôle Membre 3)
             if (args.length > 0) {
-                grille = LecteurGrille.lireDepuisFichier(args[0]);
-            } 
-            // Sinon saisie manuelle
-            else {
-                grille = SaisieConsole.saisirGrille();
+                System.out.println("Chargement du fichier : " + args[0]);
+                grille.chargerFichier(args[0]);
+            } else {
+                grille.chargerSaisie(scanner);
             }
 
+            // Étape 2 : Affichage Initial (Rôle Membre 4)
             System.out.println("\nGrille initiale :");
             Afficheur.afficherGrille(grille);
 
-            // Résolution
+            // Étape 3 : Résolution (Rôle Membre 2)
             Solveur solveur = new Solveur();
+            System.out.println("\nRésolution en cours...");
 
             if (solveur.resoudre(grille)) {
-                System.out.println("\nGrille résolue :");
+                System.out.println("Grille résolue avec succès !");
                 Afficheur.afficherGrille(grille);
             } else {
-                System.out.println("\nAucune solution trouvée !");
+                System.out.println("Aucune solution possible pour cette grille.");
             }
 
         } catch (Exception e) {
-            System.out.println("Erreur : " + e.getMessage());
+            System.out.println("Erreur critique : " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            scanner.close();
         }
     }
 }

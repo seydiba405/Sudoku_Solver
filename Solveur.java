@@ -1,104 +1,35 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+public class Solveur {
 
-public class SudokuSolver {
-
-    public static void main(String[] args) {
-        // Nom du fichier texte
-        String fileName = "grille.txt";
-        int[][] board = loadBoard(fileName);
-
-        if (board == null) {
-            System.out.println("Erreur : Impossible de lire le fichier.");
-            return;
-        }
-
-        System.out.println("Grille chargée depuis le fichier :");
-        printBoard(board);
-
-        if (solve(board)) {
-            System.out.println("\nSolution trouvee :");
-            printBoard(board);
-        } else {
-            System.out.println("\nPas de solution possible.");
-        }
-    }
-
-    // NOUVELLE MÉTHODE : Lecture du fichier TXT
-    public static int[][] loadBoard(String fileName) {
-        int[][] board = new int[9][9];
-        try {
-            File file = new File(fileName);
-            Scanner scanner = new Scanner(file);
-
-            for (int row = 0; row < 9; row++) {
-                for (int col = 0; col < 9; col++) {
-                    if (scanner.hasNextInt()) {
-                        board[row][col] = scanner.nextInt();
-                    }
-                }
-            }
-            scanner.close();
-            return board;
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichier non trouve : " + fileName);
-            return null;
-        }
-    }
-
-    // --- LE RESTE DU CODE RESTE IDENTIQUE ---
-
-    public static boolean solve(int[][] bo) {
-        int[] find = findEmpty(bo);
-        if (find == null) return true;
+    // Cette méthode sera appelée par SudokuApp
+    public boolean resoudre(Grille g) {
+        int[] vide = trouverCaseVide(g);
         
-        int row = find[0];
-        int col = find[1];
+        // Si plus de case vide, le Sudoku est résolu
+        if (vide == null) return true;
+        
+        int row = vide[0];
+        int col = vide[1];
 
-        for (int i = 1; i <= 9; i++) {
-            if (isValid(bo, i, row, col)) {
-                bo[row][col] = i;
-                if (solve(bo)) return true;
-                bo[row][col] = 0;
+        // On teste les chiffres de 1 à 9
+        for (int num = 1; num <= 9; num++) {
+            // Utilisation de TA méthode estValide de la classe Grille
+            if (g.estValide(row, col, num)) {
+                g.getCase(row, col).valeur = num; // On pose le chiffre
+
+                if (resoudre(g)) return true; // Récursion
+
+                g.getCase(row, col).valeur = 0; // Backtrack : on efface
             }
         }
         return false;
     }
 
-    public static boolean isValid(int[][] bo, int num, int row, int col) {
-        for (int i = 0; i < 9; i++) {
-            if (bo[row][i] == num && col != i) return false;
-            if (bo[i][col] == num && row != i) return false;
-        }
-
-        int boxX = col / 3;
-        int boxY = row / 3;
-        for (int i = boxY * 3; i < boxY * 3 + 3; i++) {
-            for (int j = boxX * 3; j < boxX * 3 + 3; j++) {
-                if (bo[i][j] == num && (i != row || j != col)) return false;
-            }
-        }
-        return true;
-    }
-
-    public static void printBoard(int[][] bo) {
-        for (int i = 0; i < 9; i++) {
-            if (i % 3 == 0 && i != 0) System.out.println("- - - - - - - - - - - - - ");
-            for (int j = 0; j < 9; j++) {
-                if (j % 3 == 0 && j != 0) System.out.print(" | ");
-                System.out.print(bo[i][j] + (j == 8 ? "" : " "));
-            }
-            System.out.println();
-        }
-    }
-
-    public static int[] findEmpty(int[][] bo) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (bo[i][j] == 0) return new int[]{i, j};
+    private int[] trouverCaseVide(Grille g) {
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                if (g.getCase(r, c).valeur == 0) return new int[]{r, c};
             }
         }
         return null;
     }
-}// create method resoudre (Grille g) create class "Grille"
+}
