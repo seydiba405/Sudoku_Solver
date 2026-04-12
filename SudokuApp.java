@@ -6,7 +6,7 @@ public class SudokuApp {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            // Étape 1 : Chargement (Rôle Membre 3)
+            // Étape 1 : Chargement 
             if (args.length > 0) {
                 System.out.println("Chargement du fichier : " + args[0]);
                 grille.chargerFichier(args[0]);
@@ -14,11 +14,11 @@ public class SudokuApp {
                 grille.chargerSaisie(scanner);
             }
 
-            // Étape 2 : Affichage Initial (Rôle Membre 4)
+            // Étape 2 : Affichage Initial 
             System.out.println("\nGrille initiale :");
             Afficheur.afficherGrille(grille);
 
-            // Étape 3 : Résolution (Rôle Membre 2)
+            // Étape 3 : Résolution 
             Solveur solveur = new Solveur();
             System.out.println("\nRésolution en cours...");
 
