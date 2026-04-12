@@ -6,6 +6,10 @@ Ce projet est une application Java robuste permettant de charger, d'afficher et 
 
 ## Équipe de Développement
 Le projet a été développé par 5 étudiants pour garantir une architecture propre et modulaire
+- Mohamed BA
+- Mouhamadou GUEYE
+- Ndeye Tening SENE
+- Fatou Kiné DIANKO
 
 ##  Fonctionnalités
 - **Chargement Multimodal** : Lecture de grilles depuis un fichier texte externe ou via une saisie manuelle sécurisée en console.
